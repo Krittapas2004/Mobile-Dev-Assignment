@@ -6,8 +6,7 @@ function HomeScreen({ navigation }) {
   const recipes = recipeData.recipes;
 
   return (
-    <View className="flex-1 bg-white px-4 pt-6">
-      <View className="border-b border-gray-300 mb-4" />
+    <View className="flex-1 bg-white px-4 pt-10">
       <Text className="text-2xl font-bold text-gray-800 mb-4">Meal Recipe</Text>
 
       <FlatList
