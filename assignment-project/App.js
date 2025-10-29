@@ -11,7 +11,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Home"
+          name="Meal Recipe"
           component={HomeScreen}
           options={{
             headerTitleAlign: "left",
