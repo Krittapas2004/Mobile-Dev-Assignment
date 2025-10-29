@@ -1,13 +1,12 @@
 import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
-import React from "react";
 import recipeData from "../data/application-development-data.json";
 
 function HomeScreen({ navigation }) {
   const recipes = recipeData.recipes;
 
   return (
-    <View className="flex-1 bg-white px-4 pt-10">
-      <Text className="text-2xl font-bold text-gray-800 mb-4">Meal Recipe</Text>
+    <View className="flex-1 bg-white px-4 pt-10 pb-10">
+      <Text className="text-4xl font-bold text-gray-800 mb-4">Meal Recipe</Text>
 
       <FlatList
         data={recipes}
@@ -15,7 +14,7 @@ function HomeScreen({ navigation }) {
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate("RecipeDetails", { recipe: item })
+              navigation.navigate("RecipeDetail", { recipe: item })
             }
             className="bg-white rounded-2xl shadow-md mb-5 border border-gray-100 flex-row p-3"
           >
