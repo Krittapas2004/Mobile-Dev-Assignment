@@ -1,35 +1,64 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
+
 import HomeScreen from "./screens/HomeScreen";
 import RecipeDetailScreen from "./screens/RecipeDetailScreen";
+import DailySpecialScreen from "./screens/DailySpecialScreen";
+import FavouritesScreen from "./screens/FavouritesScreen";
+import IngredientsScreen from "./screens/IngredientsScreen";
 import "./global.css";
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function HomeStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Meal Recipe"
+        component={HomeScreen}
+        options={{
+          headerTitleAlign: "left",
+          headerTitleStyle: {
+            fontSize: 32,
+            fontWeight: "bold",
+            color: "#000",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="RecipeDetail"
+        component={RecipeDetailScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Meal Recipe"
-          component={HomeScreen}
-          options={{
-            headerTitleAlign: "left",
-            headerTitleStyle: {
-              fontSize: 32,
-              fontWeight: "bold",
-              color: "#000",
-            },
-          }}
-        />
-        <Stack.Screen
-          name="RecipeDetail"
-          component={RecipeDetailScreen}
-          options={{
-            headerShown: false
-          }}
-        />
-      </Stack.Navigator>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          headerShown: false,
+          tabBarIcon: ({ color, size, focused }) => {
+            let iconName;
+            if (route.name === "Home") iconName = "home";
+            else if (route.name === "Special") iconName = iconName = "ribbon";
+            else if (route.name === "Favourites") iconName = "heart";
+            else if (route.name === "Ingredients") iconName = "restaurant";
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: "#000",
+        })}
+      >
+        <Tab.Screen name="Home" component={HomeStack} />
+        <Tab.Screen name="Special" component={DailySpecialScreen} />
+        <Tab.Screen name="Favourites" component={FavouritesScreen} />
+        <Tab.Screen name="Ingredients" component={IngredientsScreen} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }

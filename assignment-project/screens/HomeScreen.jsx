@@ -5,7 +5,7 @@ function HomeScreen({ navigation }) {
   const recipes = recipeData.recipes;
 
   return (
-    <View className="flex-1 bg-white px-4 pt-10 pb-10">
+    <View className="flex-1 bg-white px-4 pt-10">
       <FlatList
         data={recipes}
         keyExtractor={(item) => item.id.toString()}
