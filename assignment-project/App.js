@@ -43,7 +43,7 @@ export default function App() {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           headerShown: false,
-          tabBarIcon: ({ color, size, focused }) => {
+          tabBarIcon: ({ color, size }) => {
             let iconName;
             if (route.name === "Home") iconName = "home";
             else if (route.name === "Special") iconName = iconName = "ribbon";

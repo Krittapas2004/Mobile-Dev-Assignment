@@ -20,9 +20,15 @@ function RecipeDetailScreen() {
           <Ionicons name="arrow-back" size={22} color="#333" />
         </TouchableOpacity>
 
-        <TouchableOpacity className="bg-gray-100 p-2 rounded-full">
-          <Ionicons name="heart-outline" size={24} color="#333" />
-        </TouchableOpacity>
+        <View className="flex-row space-x-3">
+          <TouchableOpacity className="bg-gray-100 p-2 rounded-full">
+            <Ionicons name="heart-outline" size={22} color="#333" />
+          </TouchableOpacity>
+
+          <TouchableOpacity className="bg-gray-100 p-2 rounded-full">
+            <Ionicons name="add-outline" size={22} color="#333" />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <Image
