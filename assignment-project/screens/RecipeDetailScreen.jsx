@@ -1,11 +1,61 @@
 import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRoute, useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useState, useEffect } from "react";
 
 function RecipeDetailScreen() {
   const route = useRoute();
   const navigation = useNavigation();
   const { recipe } = route.params;
+
+  const [isFavourite, setIsFavourite] = useState(false);
+
+  useEffect(() => {
+    checkFavourite();
+  }, []);
+
+  const checkFavourite = async () => {
+    try {
+      const value = await AsyncStorage.getItem("favourites");
+      if (value !== null) {
+        const parsedFavourites = JSON.parse(value);
+        const exists = parsedFavourites.some(
+          (item) => item.name === recipe.name
+        );
+        setIsFavourite(exists);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const toggleFavourite = async () => {
+    try {
+      const value = await AsyncStorage.getItem("favourites");
+      let favourites = [];
+      if (value !== null) {
+        favourites = JSON.parse(value);
+      }
+
+      if (isFavourite) {
+        favourites = favourites.filter((item) => item.name !== recipe.name);
+        await AsyncStorage.setItem("favourites", JSON.stringify(favourites));
+        setIsFavourite(false);
+      } else {
+        favourites.push({
+          name: recipe.name,
+          image: recipe.image,
+          averageRating: recipe.averageRating || "N/A",
+          cuisine: recipe.cuisine || "Unknown",
+        });
+        await AsyncStorage.setItem("favourites", JSON.stringify(favourites));
+        setIsFavourite(true);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <ScrollView
@@ -21,8 +71,15 @@ function RecipeDetailScreen() {
         </TouchableOpacity>
 
         <View className="flex-row space-x-3">
-          <TouchableOpacity className="bg-gray-100 p-2 rounded-full">
-            <Ionicons name="heart-outline" size={22} color="#333" />
+          <TouchableOpacity
+            onPress={toggleFavourite}
+            className="bg-gray-100 p-2 rounded-full"
+          >
+            <Ionicons
+              name="heart-outline"
+              size={22}
+              color={isFavourite ? "red" : "#333"}
+            />
           </TouchableOpacity>
 
           <TouchableOpacity className="bg-gray-100 p-2 rounded-full">

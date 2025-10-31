@@ -46,7 +46,7 @@ export default function App() {
           tabBarIcon: ({ color, size }) => {
             let iconName;
             if (route.name === "Home") iconName = "home";
-            else if (route.name === "Special") iconName = iconName = "ribbon";
+            else if (route.name === "Daily Special") iconName = iconName = "ribbon";
             else if (route.name === "Favourites") iconName = "heart";
             else if (route.name === "Ingredients") iconName = "restaurant";
             return <Ionicons name={iconName} size={size} color={color} />;
@@ -55,7 +55,7 @@ export default function App() {
         })}
       >
         <Tab.Screen name="Home" component={HomeStack} />
-        <Tab.Screen name="Special" component={DailySpecialScreen} />
+        <Tab.Screen name="Daily Special" component={DailySpecialScreen} />
         <Tab.Screen name="Favourites" component={FavouritesScreen} />
         <Tab.Screen name="Ingredients" component={IngredientsScreen} />
       </Tab.Navigator>
