@@ -10,9 +10,11 @@ function RecipeDetailScreen() {
   const { recipe } = route.params;
 
   const [isFavourite, setIsFavourite] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
 
   useEffect(() => {
     checkFavourite();
+    checkIfIngredientsAdded();
   }, []);
 
   const checkFavourite = async () => {
@@ -57,6 +59,52 @@ function RecipeDetailScreen() {
     }
   };
 
+  const checkIfIngredientsAdded = async () => {
+    try {
+      const value = await AsyncStorage.getItem("ingredients");
+      if (value) {
+        const parsed = JSON.parse(value);
+        const exists = parsed.some((item) => item.recipeName === recipe.name);
+        setIsAdded(exists);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const addIngredients = async () => {
+    try {
+      const value = await AsyncStorage.getItem("ingredients");
+      const ingredients = value ? JSON.parse(value) : [];
+
+      const alreadyAdded = ingredients.some(
+        (item) => item.recipeName === recipe.name
+      );
+      if (alreadyAdded) {
+        setIsAdded(true);
+        return;
+      }
+
+      const newIngredients =
+        recipe.ingredients?.map((i) => ({
+          recipeName: recipe.name,
+          name: i.name,
+          quantity: i.quantity,
+          category: recipe.cuisine || "General",
+        })) || [];
+
+      const updatedIngredients = [...ingredients, ...newIngredients];
+      await AsyncStorage.setItem(
+        "ingredients",
+        JSON.stringify(updatedIngredients)
+      );
+
+      setIsAdded(true);
+    } catch (err) {
+      console.log("Error saving ingredients:", err);
+    }
+  };
+
   return (
     <ScrollView
       className="flex-1 bg-white px-5"
@@ -82,8 +130,15 @@ function RecipeDetailScreen() {
             />
           </TouchableOpacity>
 
-          <TouchableOpacity className="bg-gray-100 p-2 rounded-full">
-            <Ionicons name="add-outline" size={22} color="#333" />
+          <TouchableOpacity
+            onPress={addIngredients}
+            className="bg-gray-100 p-2 rounded-full"
+          >
+            <Ionicons
+              name="add-outline"
+              size={22}
+              color="#333"
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -102,9 +157,6 @@ function RecipeDetailScreen() {
       </Text>
 
       <View className="flex-row items-center mb-4">
-        <Text className="text-lg font-semibold text-gray-800 mr-2">
-          Overall Rating:
-        </Text>
         <View className="flex-row items-center">
           <Text className="text-lg text-yellow-600 font-semibold">
             {recipe.averageRating || "Not rated"}
@@ -113,7 +165,6 @@ function RecipeDetailScreen() {
         </View>
       </View>
 
-      <Text className="text-xl font-semibold mb-2 text-gray-800">Tags</Text>
       {recipe.tags?.length ? (
         <View className="flex-row flex-wrap mb-4">
           {recipe.tags.map((tag, index) => (

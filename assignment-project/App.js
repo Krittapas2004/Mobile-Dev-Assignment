@@ -75,6 +75,25 @@ function DailySpecial() {
   );
 }
 
+function Ingredient() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Daily Special"
+        component={IngredientsScreen}
+        options={{
+          headerTitleAlign: "left",
+          headerTitleStyle: {
+            fontSize: 32,
+            fontWeight: "bold",
+            color: "#000",
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 export default function App() {
   return (
     <NavigationContainer>
@@ -95,7 +114,7 @@ export default function App() {
         <Tab.Screen name="Home" component={HomeStack} />
         <Tab.Screen name="Daily Special" component={DailySpecial} />
         <Tab.Screen name="Favourites" component={Favourites} />
-        <Tab.Screen name="Ingredients" component={IngredientsScreen} />
+        <Tab.Screen name="Ingredients" component={Ingredient} />
       </Tab.Navigator>
     </NavigationContainer>
   );
