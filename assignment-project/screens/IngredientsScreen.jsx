@@ -53,7 +53,7 @@ function IngredientsScreen() {
   const categories = Object.keys(grouped);
 
   return (
-    <View className="flex-1 px-4 pt-2 bg-white">
+    <View className="flex-1 px-4 pt-2 bg-gray-200">
       {ingredients.length === 0 ? (
         <Text className="text-gray-500 text-center mt-10">
           No ingredients added yet

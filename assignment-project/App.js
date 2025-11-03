@@ -79,7 +79,7 @@ function Ingredient() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Daily Special"
+        name="Ingredients"
         component={IngredientsScreen}
         options={{
           headerTitleAlign: "left",

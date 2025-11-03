@@ -107,7 +107,7 @@ function RecipeDetailScreen() {
 
   return (
     <ScrollView
-      className="flex-1 bg-white px-5"
+      className="flex-1 bg-gray-200 px-5"
       contentContainerStyle={{ paddingBottom: 50 }}
     >
       <View className="flex-row justify-between items-center mb-4 mt-8">
